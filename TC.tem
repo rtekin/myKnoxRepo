@@ -1,0 +1,140 @@
+/*--------------------------------------------------------------
+	TEMPLATE FILE FOR DEFINING THALAMOCORTICAL NEURONS
+	--------------------------------------------------
+
+	One compartment model and currents derived from:
+
+ 	McCormick, D.A. and Huguenard, J.R.  A model of the 
+	electrophysiological properties of thalamocortical relay neurons.  
+	J. Neurophysiology 68: 1384-1400, 1992.
+
+	- passive: parameters idem Rinzel
+	- HH: Traub with higher threshold
+	- IT: m2h, nernst, tau_h modified with double exponential
+	- Ih: Huguenard with Ca++ dependence added, Ca++-binding protein
+	- Ca++: simple decay, faster than McCormick
+
+
+	This model is described in detail in:
+
+	Destexhe, A., Bal, T., McCormick, D.A. and Sejnowski, T.J.
+	Ionic mechanisms underlying synchronized oscillations and propagating
+	waves in a model of ferret thalamic slices. Journal of Neurophysiology
+	76: 2049-2070, 1996.
+	See also http://www.cnl.salk.edu/~alain , http://cns.fmed.ulaval.ca
+
+
+	Alain Destexhe, Salk Institute and Laval University, 1995
+
+--------------------------------------------------------------*/
+
+
+print " "
+print " << defining template for one-compartment sTC cell >> "
+print " "
+
+
+begintemplate sTC		// create a new template object
+public soma, kl //, ampapost, gabaapost, gababpost, PYlist, TClist, REgabaalist, REgabablist
+
+//objectvar ampapost, gabaapost, gababpost, PYlist, TClist, REgabaalist, REgabablist
+
+create soma[1]			// one compartment of about 29000 um2
+soma {
+  nseg = 1
+  diam = 96
+  L = 96
+  cm = 1
+}
+
+objectvar kl
+
+proc init() { local v_potassium, v_sodium
+
+objectvar kl
+kl = new kleak()
+
+
+  v_potassium = -100		// potassium reversal potential 
+  v_sodium = 50			// sodium reversal potential 
+
+  soma {
+	diam = 96		// geometry 
+	L = 96			// so that area is about 29000 um2
+	nseg = 1
+	Ra = 100
+
+	insert pas		// leak current 
+	e_pas = -70		// original from Rinzel
+	//e_pas = -100
+	g_pas = 1e-5		//1e-5
+
+	kl.loc(0.5)		// K-leak
+	Erev_kleak = v_potassium+5
+	kl.gmax = 0.004		// (uS)
+				// conversion: x(uS) = x(mS/cm2)*29000e-8*1e3
+				//		     = x(mS/cm2) * 0.29
+
+
+	insert hh2		// Hodgin-Huxley INa and IK 
+	ek = v_potassium
+	ena = v_sodium
+	vtraub_hh2 = -25	// High threshold to simulated IA
+	gnabar_hh2 = 0.09  //original
+	gkbar_hh2 = 0.01
+
+
+	insert it		// T-current 
+	proportion_custom = 0
+	cai = 2.4e-4 
+	cao = 2 
+	eca = 120 
+	gcabar_it = 0.002 * (1-proportion_custom)
+	shift_it = 2
+
+	//insert ittccustom
+	//gcabar_ittccustom = 0.002 * proportion_custom
+	//shift_ittccusotm = 2
+	//taubase_ittccustom = 30.8
+
+	insert iar		// h-current
+	//eh = -40		// reversal
+	eh = -40
+	nca_iar = 4		// nb of binding sites for Ca++ on protein
+	k2_iar = 0.0004		// decay of Ca++ binding on protein
+	cac_iar = 0.002		// half-activation of Ca++ binding
+	nexp_iar = 1		// nb of binding sites on Ih channel
+	k4_iar = 0.001		// decay of protein binding on Ih channel
+	Pc_iar = 0.01		// half-activation of binding on Ih channel
+	ginc_iar = 2		// augm of conductance of bound Ih
+	//ginc_iar = 1.25 		// augm of conductance of bound Ih
+	ghbar_iar = 2e-5	// low Ih for slow oscillations
+
+
+	insert cad		// calcium decay
+	depth_cad = 1
+	taur_cad = 5
+	cainf_cad = 2.4e-4
+	kt_cad = 0		// no pump
+/*
+	PYlist = new List()
+	TClist = new List()
+	REgabaalist = new List()
+	REgabablist = new List()
+
+	ampapost = new AMPA_S(0.5)
+	gabaapost = new GABAa_S(0.5)
+	gababpost = new List()
+	//gababpost = new GABAb_S(0.5)
+*/
+  }
+
+  print " "
+  print "<< sTC: passive, Kleak, INa, IK, IT, Ih-CAM and Ca++ decay inserted >>"
+  print " "
+
+}
+endtemplate sTC
+
+
+

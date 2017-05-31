@@ -1,5 +1,5 @@
 """
-params.py 
+knoxParams.py 
 
 netParams is a dict containing a set of network parameters using a standardized structure
 

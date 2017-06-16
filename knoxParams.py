@@ -110,8 +110,8 @@ netParams.cellParams['INrule'] = cellRule
 """
 
 ### mPY (multi compartment) (Mainen and Sejnowski, 1996)
-cellRule = netParams.importCellParams(label='mPYrule', conds={'cellType': 'PY', 'cellModel': 'HH_PY'},	fileName='mPYr.tem', cellName='mPYr')
-#cellRule = netParams.importCellParams(label='mPYrule', conds={'cellType': 'PY', 'cellModel': 'HH_PY'},	fileName='mPYr.py', cellName='mPYr')
+#cellRule = netParams.importCellParams(label='mPYrule', conds={'cellType': 'PY', 'cellModel': 'HH_PY'},	fileName='mPYr.tem', cellName='mPYr')
+cellRule = netParams.importCellParams(label='mPYrule', conds={'cellType': 'PY', 'cellModel': 'HH_PY'},	fileName='mPYr.py', cellName='mPYr')
 
 """
 cellRule['secs']['dend']['mechs']['pas']={'g': 3.3e-5, 'e': -70}
@@ -126,8 +126,8 @@ cellRule['secs']['soma']['mechs']['kv']={'gmax': 0.2}
 netParams.cellParams['mPYrule'] = cellRule
 
 ### mIN (multi compartment) (Mainen and Sejnowski, 1996)
-cellRule = netParams.importCellParams(label='mINrule', conds={'cellType': 'IN', 'cellModel': 'HH_IN'},	fileName='mINr.tem', cellName='mINr')
-#cellRule = netParams.importCellParams(label='mINrule', conds={'cellType': 'IN', 'cellModel': 'HH_IN'},	fileName='mINr.py', cellName='mINr')
+#cellRule = netParams.importCellParams(label='mINrule', conds={'cellType': 'IN', 'cellModel': 'HH_IN'},	fileName='mINr.tem', cellName='mINr')
+cellRule = netParams.importCellParams(label='mINrule', conds={'cellType': 'IN', 'cellModel': 'HH_IN'},	fileName='mINr.py', cellName='mINr')
 
 """
 cellRule['secs']['dend']['mechs']['pas']={'g': 3.3e-5, 'e': -70}

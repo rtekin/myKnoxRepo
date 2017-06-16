@@ -106,8 +106,10 @@ NEURON {
 	POINT_PROCESS GABAb_S
 	RANGE R, G, Gn, g, gmax, synon, Ron, Roff
 	NONSPECIFIC_CURRENT i
-	GLOBAL Cmax, Cdur
-	GLOBAL K1, K2, K3, K4, KD, Erev
+	:GLOBAL Cmax, Cdur
+	RANGE Cmax, Cdur
+	:GLOBAL K1, K2, K3, K4, KD, Erev
+	RANGE K1, K2, K3, K4, KD, Erev
 }
 UNITS {
 	(nA) = (nanoamp)

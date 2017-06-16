@@ -27,7 +27,7 @@ print " "
 begintemplate sPY		// create a new template object
 public soma //, ampapostPY, ampapostTC, gabaapost, gababpost, PYlist, TClist, INgabaalist, INgabablist
 
-create soma[1]
+create soma
 
 //objectvar ampapostPY, ampapostTC, gabaapost, gababpost, PYlist, TClist, INgabaalist, INgabablist
 

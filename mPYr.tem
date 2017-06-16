@@ -30,14 +30,14 @@ v_init    = -70      // resting membrane potential (approximate) (mV)
 forall cm = 0.75     // membrane capacity (uF-cm^-2
 rm        = 30000    // membrane resistivity (ohm-cm^2)
 celsius   = 37
-ra 		=  150
+ra 		=  100
 rho = 165 // dendritic to axo-somatic area ratio 
                      // useful range approx (50 to 200)
 kappa = 10 // coupling resistance (Mohm) 
                      // useful range approx (0 to 10)
 
-create soma[1]		// axo-somatic compartment
-create dend[1]		// dendritic compartment
+create soma		// axo-somatic compartment
+create dend		// dendritic compartment
 access soma
 connect dend(0), soma(.5)  
 
@@ -78,7 +78,7 @@ proc init() { local v_potassium, v_sodium
 
   v_init    = -70      // resting membrane potential (approximate) (mV)
   forall cm = 0.75     // membrane capacity (uF-cm^-2
-  forall Ra = 150
+  forall Ra = 100
   rm        = 30000    // membrane resistivity (ohm-cm^2)
   dend.g_pas = 1/rm    // only dendrite has leak conductance
   dend.e_pas = v_init  // leak reversal potential (mV)
@@ -89,20 +89,20 @@ proc init() { local v_potassium, v_sodium
   // --------------------------------------------------------------
   
   // Axo-somatic conductance densities (pS-um^-2)
-  soma.gbar_na = 3 //30000     // fast Na+ 
-  soma.gbar_kv = 0.2 //1500      // fast non-inactivating K+ 
+  soma.gbar_na = 30000     // fast Na+ 
+  soma.gmax_kv = 1500      // fast non-inactivating K+ 
   //soma.gbar_nap = 7e-5      // Persistent Na
 
   // Dendritic conductance densities (pS-um^-2)
   // dend.gbar_nap = 7e-5		// Nap inserted in (Bazhenov et al.,2002)
   // dend.gmax = 2.5e-6		// 0−0.0025 mS/cm2 kelak inserted in (Bazhenov et al.,2002)
-  dend.gbar_na = 1.5e-3         // fast Na+ 
-  dend.gbar_ca = 1e-5         // high voltage-activated Ca^2+ 
-  dend.gbar_km = 1e-5         // slow voltage-dependent non-inactivating K+
-  dend.gbar_kca = 0.3e-3         // slow Ca^2+-activated K+
+  dend.gbar_na = 15         // fast Na+ 
+  dend.gbar_ca = 0.3         // high voltage-activated Ca^2+ 
+  dend.gmax_km = 0.1         // slow voltage-dependent non-inactivating K+
+  dend.gmax_kca = 3        // slow Ca^2+-activated K+
 
   forall ek = -90      // K+ current reversal potential (mV)
-  forall ena = 60      // Na+ current reversal potential (mV)
+  forall ena = 50      // Na+ current reversal potential (mV)
 
   dend.eca = 140       // Ca2+ current reversal potential (mV)
                      // using an ohmic current rather than GHK equation

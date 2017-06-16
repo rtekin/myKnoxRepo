@@ -73,7 +73,8 @@ NEURON {
 	POINTER pre
 	RANGE C, R, R0, R1, g, gmax, B, lastrelease, TimeCount
 	NONSPECIFIC_CURRENT i
-	GLOBAL Cmax, Cdur, Alpha, Beta, Erev, mg
+	:GLOBAL Cmax, Cdur, Alpha, Beta, Erev, mg
+	RANGE Cmax, Cdur, Alpha, Beta, Erev, mg
 	GLOBAL Prethresh, Deadtime, Rinf, Rtau
 }
 UNITS {

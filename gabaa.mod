@@ -60,7 +60,9 @@ NEURON {
 	POINT_PROCESS GABAa_S
 	RANGE g, gmax, R
 	NONSPECIFIC_CURRENT i
-	GLOBAL Cmax, Cdur, Alpha, Beta, Erev, Rinf, Rtau
+	:GLOBAL Cmax, Cdur, Alpha, Beta, Erev, Rinf, Rtau
+	GLOBAL Rinf, Rtau
+	RANGE Cmax, Cdur, Alpha, Beta, Erev
 }
 UNITS {
 	(nA) = (nanoamp)

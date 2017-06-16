@@ -31,7 +31,7 @@ INDEPENDENT {t FROM 0 TO 1 WITH 1 (ms)}
 NEURON {
 	SUFFIX it
 	USEION ca READ cai,cao WRITE ica
-	GLOBAL q10
+	RANGE q10
 	RANGE gcabar, m_inf, tau_m, h_inf, tau_h, shift
 }
 
@@ -67,6 +67,7 @@ ASSIGNED {
 	h_inf
 	tau_h	(ms)
 	phi_h
+:	phi_m
 }
 
 BREAKPOINT {
@@ -79,6 +80,7 @@ DERIVATIVE castate {
 	evaluate_fct(v)
 
 	h' = (h_inf - h) / tau_h
+:	m' = (m_inf - m) / tau_m	
 }
 
 
@@ -89,7 +91,8 @@ INITIAL {
 :   (as in Coulter et al., J Physiol 414: 587, 1989)
 :
 	phi_h = q10 ^ ((celsius-24 (degC) )/10 (degC) )
-
+:	phi_m = q10 ^ ((celsius-24 (degC) )/10 (degC) )
+	
 	h = 0
 }
 
@@ -107,8 +110,9 @@ PROCEDURE evaluate_fct(v(mV)) { LOCAL Vm
 :	}
 
 	tau_h = 30.8 + (211.4 + exp((Vm+113.2)/5)) / (1 + exp((Vm+84)/3.2))
-
 	tau_h = tau_h / phi_h
+	
+:	tau_m = (1.0 / ( exp(-(Vm+129.6)/16.7) + exp((Vm+14.8)/18.2) + 0.612) ) / phi_m
 
 }
 

@@ -21,7 +21,7 @@ print " "
 begintemplate sIN		// create a new template object
 public soma //, ampapost, PYlist, TClist
 
-create soma[1]
+create soma
 
 //objectvar ampapost, PYlist, TClist
 

@@ -179,8 +179,8 @@ netParams.synMechParams['AMPA'] = {'mod': 'ExpSyn', 'tau': 0.1, 'e': 0}
 netParams.synMechParams['AMPA_S'] = {'mod': 'AMPA_S', 'Cmax': 0.5, 'Cdur': 0.3, 'Alpha': 0.94, 'Beta': 0.18, 'Erev': 0} #}
 
 # NMDA
-netParams.synMechParams['NMDA'] = {'mod': 'Exp2Syn', 'tau1': 0.15, 'tau2': 15, 'e': 0}  # NMDA
-#netParams.synMechParams['NMDA'] = {'mod': 'NMDA', 'Cmax': 1.0, 'Cdur': 1.0, 'Alpha': 0.072, 'Beta': 0.0066, 'Erev': 0} #}
+#netParams.synMechParams['NMDA'] = {'mod': 'Exp2Syn', 'tau1': 0.15, 'tau2': 15, 'e': 0}  # NMDA
+netParams.synMechParams['NMDA'] = {'mod': 'NMDA', 'Cmax': 1.0, 'Cdur': 1.0, 'Alpha': 0.072, 'Beta': 0.0066, 'Erev': 0} #}
 
 # GABAa_S
 #netParams.synMechParams['GABAA'] = {'mod': 'Exp2Syn', 'tau1': 0.07, 'tau2': 9.1, 'e': -80}  # GABAA

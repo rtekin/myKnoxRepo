@@ -403,6 +403,7 @@ netParams.connParams['TC->IN'] = {
 #------------------------------------------------------------------------------
 
 # Simulation parameters
+simConfig.checkErrors=True
 simConfig.trans = 10000
 simConfig.Dt = 0.1
 simConfig.steps_per_ms = 1/simConfig.Dt

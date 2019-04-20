@@ -1,9 +1,7 @@
 """
-knoxParams.py 
+netParams.py 
 
 netParams is a dict containing a set of network parameters using a standardized structure
-
-simConfig is a dict containing a set of simulation configurations using a standardized structure
 
 refs:
 Z. F. Mainen and T. J. Sejnowski (1996) Influence of dendritic structure on 
@@ -57,7 +55,6 @@ for i in range(len(connMat)):
 """
 
 netParams = specs.NetParams()   # object of class NetParams to store the network parameters
-simConfig = specs.SimConfig()   # object of class SimConfig to store the simulation configuration
 
 ###############################################################################
 #
@@ -68,7 +65,7 @@ simConfig = specs.SimConfig()   # object of class SimConfig to store the simulat
 ###############################################################################
 # NETWORK PARAMETERS
 ###############################################################################
-N=100; N_PY=N; N_IN=N/2; N_TC=N/4; N_RE=N/4;
+N=100; N_PY=N; N_IN=int(N/2); N_TC=int(N/4); N_RE=int(N/4);
 netParams.narrowdiam = 5
 netParams.widediam = 10
 
@@ -143,6 +140,7 @@ netParams.cellParams['mINrule'] = cellRule
 
 ### TC (Destexhe et al., 1996; Bazhenov et al.,2002)
 cellRule = netParams.importCellParams(label='TCrule', conds={'cellType': 'TC', 'cellModel': 'HH_TC'}, fileName='TC.tem', cellName='sTC')
+
 #cellRule = netParams.importCellParams(label='TCrule', conds={'cellType': 'TC', 'cellModel': 'HH_TC'}, fileName='TC.py', cellName='sTC')
 """
 cellRule['secs']['soma']['mechs']['hh2']={'gnabar': 0.09, 'gkbar': 0.01, 'vtraub': -25.0}
@@ -179,8 +177,8 @@ netParams.synMechParams['AMPA'] = {'mod': 'ExpSyn', 'tau': 0.1, 'e': 0}
 netParams.synMechParams['AMPA_S'] = {'mod': 'AMPA_S', 'Cmax': 0.5, 'Cdur': 0.3, 'Alpha': 0.94, 'Beta': 0.18, 'Erev': 0} #}
 
 # NMDA
-#netParams.synMechParams['NMDA'] = {'mod': 'Exp2Syn', 'tau1': 0.15, 'tau2': 15, 'e': 0}  # NMDA
-netParams.synMechParams['NMDA'] = {'mod': 'NMDA', 'Cmax': 1.0, 'Cdur': 1.0, 'Alpha': 0.072, 'Beta': 0.0066, 'Erev': 0} #}
+netParams.synMechParams['NMDA'] = {'mod': 'Exp2Syn', 'tau1': 0.15, 'tau2': 15, 'e': 0}  # NMDA
+#netParams.synMechParams['NMDA'] = {'mod': 'NMDA', 'Cmax': 1.0, 'Cdur': 1.0, 'Alpha': 0.072, 'Beta': 0.0066, 'Erev': 0} #}
 
 # GABAa_S
 #netParams.synMechParams['GABAA'] = {'mod': 'Exp2Syn', 'tau1': 0.07, 'tau2': 9.1, 'e': -80}  # GABAA
@@ -397,76 +395,4 @@ netParams.connParams['TC->IN'] = {
     'probability': ThlCrxProb}
     #'connList': smallWorldConn(N_TC,N_IN,p,K)}   
 
-
-
-###############################################################################
-# SIMULATION PARAMETERS
-###############################################################################
-
-#------------------------------------------------------------------------------
-# SIMULATION CONFIGURATION
-#------------------------------------------------------------------------------
-
-# Simulation parameters
-simConfig.checkErrors=True
-simConfig.trans = 10000
-simConfig.Dt = 0.1
-simConfig.steps_per_ms = 1/simConfig.Dt
-simConfig.npoints = 30000
-
-simConfig.duration = 10*1000 # simConfig.trans + simConfig.npoints * simConfig.Dt # Duration of the simulation, in ms
-simConfig.dt = 0.1 # Internal integration timestep to use
-simConfig.hParams['celsius'] = 36
-simConfig.hParams['v_init'] = -70
-simConfig.seeds = {'conn': 1, 'stim': 1, 'loc': 1} # Seeds for randomizers (connectivity, input stimulation and cell locations)
-simConfig.verbose = False  # show detailed messages 
-
-# Recording 
-simConfig.recordCells = []  # which cells to record from
-"""
-simConfig.recordTraces = {'V_soma':{'sec':'soma','loc':0.5,'var':'v'},
-                          'V_dend':{'sec':'dend','loc':0.5,'var':'v'},
-                          'AMPA_i': {'sec':'soma', 'loc':'0.5', 'synMech':'AMPA', 'var':'AMPA_i'}}
-"""
-simConfig.recordTraces = {'V_soma':{'sec':'soma','loc':0.5,'var':'v'}}
-
-simConfig.recordStim = True  # record spikes of cell stims
-simConfig.recordStep = 0.1 # Step size in ms to save data (eg. V traces, LFP, etc)
-
-# Saving
-simConfig.simLabel = "trial1"
-simConfig.saveFolder = "data_knox_v1"
-simConfig.filename = 'knox_v1'  # Set file output name
-simConfig.saveFileStep = 1000 # step size in ms to save data to disk
-#simConfig.savePickle = True # Whether or not to write spikes etc. to a .mat file
-#simConfig.saveJson = True
-#simConfig.saveMat = True
-#simConfig.saveDpk = False
-
-# Analysis and plotting 
-simConfig.analysis['plotRaster'] = {'include': ['PY', 'IN', 'TC', 'RE'], 'orderInverse': True} #True # Whether or not to plot a raster
-#simConfig.analysis['plotRaster'] = True  # Plot raster
-simConfig.analysis['plotTraces'] = {'include': [('PY',0),('IN',0),('TC',10),('RE',10)]} # plot recorded traces for this list of cells
-
-simConfig.analysis['plotRatePSD'] = {'include': ['PY', 'IN', 'TC', 'RE'], 'Fs': 50, 'smooth': 10} # plot recorded traces for this list of cells
-
-simConfig.addAnalysis('plot2Dnet', {'include': ['PY', 'IN', 'TC', 'RE'],  'showConns': True, 'saveFig': './images/plot2Dnet.png', 'showFig': False})
-#simConfig.addAnalysis('plotShape', {'showSyns': True})
-#simConfig.addAnalysis('plotConn', {'include': ['allCells'], 'feature': 'strength'})
-#simConfig.analysis.plotConn(include=['allCells'], feature='strength', groupBy='pop', figSize=(9,9), showFig=True)
-
-# netParams
-simConfig.stimtime = 10050
-simConfig.randomstim = 0
-
-simConfig.field = 0
-simConfig.fieldg = 0
-simConfig.ampafield = 0
-simConfig.gabaafield = 0
-simConfig.gababfield = 0
-simConfig.gababTCfield = 0
-
-simConfig.runStopAt = simConfig.duration
-
-sim.createSimulateAnalyze(netParams = netParams, simConfig = simConfig)
 

@@ -2,10 +2,6 @@
 from neuron import h
 from math import pi
 
-print "-------------------------------------------------------------------"
-print "<< defining template for two-compartment mINr cell >>"
-print " "
-
 class mINr:
   def __init__ (self,ID=0,ty=0,col=0,rho=50.0,kappa=10.0,soma_pas=False):
     self.ID=ID
@@ -84,8 +80,3 @@ class mINr:
     self.soma.ek = dend.ek = -90
     self.soma.ena = dend.ena = 60
     self.soma.eca = dend.eca = 140
-
-print " "
-print "<< mPYr: for axosomatic compartment fast INa, fast IKv, INa(p) >>"
-print "<< mPYr: for dendritic  compartment Ikm, IKCa, IHVA, IKL, INa(p) >>"
-print "-------------------------------------------------------------------"
